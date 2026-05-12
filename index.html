@@ -3,126 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metrored · Plan Nutricional</title>
+<title>Metrored � Plan Nutricional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-:root{--cyan:#00AEF0;--cyan-d:#0090c8;--navy:#003D5C;--navy-l:#005580;--gb:rgba(255,255,255,.07);--gbord:rgba(255,255,255,.15);--gbords:rgba(0,174,240,.4);--tp:#ffffff;--ts:rgba(255,255,255,.65);--tm:rgba(255,255,255,.38);--ok:#22d3a5;--warn:#fbbf24;--err:#f87171;--r:18px;--rs:10px;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cyan:#00AEF0;--navy:#003D5C;--light:#f8f9fa;--border:#e0e0e0;--text:#333;--text-light:#666;}
+*{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:#020e18;color:#fff;min-height:100vh;overflow-x:hidden;}
-.bg-scene{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(0,174,240,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 100%,rgba(0,61,92,.45) 0%,transparent 60%),linear-gradient(160deg,#020e18 0%,#031d2e 50%,#020e18 100%);}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.22;animation:drift 12s ease-in-out infinite;}
-.o1{width:520px;height:520px;background:var(--cyan);top:-120px;left:-80px;}
-.o2{width:380px;height:380px;background:#0050a0;bottom:-60px;right:-60px;animation-delay:4s;}
-.o3{width:260px;height:260px;background:var(--cyan-d);top:40%;left:60%;animation-delay:7s;}
-.gl{position:absolute;inset:0;opacity:.03;background-image:linear-gradient(var(--cyan) 1px,transparent 1px),linear-gradient(90deg,var(--cyan) 1px,transparent 1px);background-size:60px 60px;}
-@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-20px) scale(1.05);}66%{transform:translate(-20px,25px) scale(.97);}}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(24px) saturate(1.6);background:rgba(2,14,24,.55);border-bottom:1px solid var(--gbord);}
-.nlogo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--navy-l));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.nlogo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--navy));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;}
 .nbrand{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.nname{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;letter-spacing:.5px;}
-.ntag{font-size:11px;color:var(--cyan);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:rgba(0,174,240,.12);border:1px solid rgba(0,174,240,.3);padding:3px 10px;border-radius:20px;}
+.nname{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy);letter-spacing:.5px;font-weight:700;}
+.ntag{font-size:11px;color:var(--cyan);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:rgba(0,174,240,.1);border:1px solid rgba(0,174,240,.3);padding:3px 10px;border-radius:20px;}
 .page{position:relative;z-index:1;padding-top:64px;}
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 24px 0;}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.eyebrow::before,.eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--cyan);opacity:.6;}
-.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.1;margin-bottom:16px;}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 24px 0;background:linear-gradient(135deg,rgba(0,174,240,.05),rgba(0,61,92,.05));}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.1;margin-bottom:16px;color:var(--navy);}
 .hero h1 em{font-style:italic;color:var(--cyan);}
-.hero p{font-size:17px;color:var(--ts);max-width:520px;line-height:1.7;margin-bottom:48px;}
-.card{backdrop-filter:blur(28px) saturate(1.4);background:var(--gb);border:1px solid var(--gbord);border-radius:var(--r);padding:36px;box-shadow:0 8px 48px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);transition:border-color .3s;}
-.card:hover{border-color:var(--gbords);}
+.hero p{font-size:17px;color:var(--text-light);max-width:520px;line-height:1.7;margin-bottom:48px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:32px;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .3s;}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);}
 .fwrap{max-width:680px;margin:0 auto;padding:0 20px 80px;}
 .stitle{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
-.stitle::after{content:'';flex:1;height:1px;background:var(--gbord);}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border);}
 .field{margin-bottom:20px;}
-label{display:block;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ts);margin-bottom:8px;}
-input,select{width:100%;padding:13px 16px;border-radius:var(--rs);background:rgba(255,255,255,.06);border:1px solid var(--gbord);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:all .2s;appearance:none;-webkit-appearance:none;}
-input:focus,select:focus{border-color:var(--cyan);background:rgba(0,174,240,.08);box-shadow:0 0 0 3px rgba(0,174,240,.15);}
-input::placeholder{color:var(--tm);}
-select option{background:#031d2e;color:#fff;}
+label{display:block;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
+input,select{width:100%;padding:13px 16px;border-radius:8px;background:#f8f9fa;border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:all .2s;}
+input:focus,select:focus{border-color:var(--cyan);background:#fff;box-shadow:0 0 0 3px rgba(0,174,240,.1);}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .pills{display:flex;gap:10px;flex-wrap:wrap;}
-.pill{flex:1;min-width:0;padding:11px 16px;border-radius:var(--rs);background:rgba(255,255,255,.05);border:1.5px solid var(--gbord);color:var(--ts);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center;}
-.pill:hover{border-color:rgba(0,174,240,.5);color:#fff;background:rgba(0,174,240,.08);}
-.pill.on{border-color:var(--cyan);background:rgba(0,174,240,.18);color:#fff;font-weight:600;}
-.btn{width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--cyan),var(--cyan-d));border:none;border-radius:var(--rs);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:all .25s;box-shadow:0 4px 24px rgba(0,174,240,.35);position:relative;overflow:hidden;}
-.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s;}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,174,240,.5);}
-.btn:hover::after{opacity:1;}
-.btn:active{transform:translateY(0);}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.btn-s{padding:12px 20px;border-radius:var(--rs);background:rgba(255,255,255,.07);border:1px solid var(--gbord);color:var(--ts);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;}
-.btn-s:hover{border-color:rgba(0,174,240,.4);color:#fff;background:rgba(0,174,240,.1);}
-.spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;}
+.pill{flex:1;min-width:0;padding:11px 16px;border-radius:8px;background:#f8f9fa;border:2px solid var(--border);color:var(--text-light);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center;}
+.pill:hover{border-color:var(--cyan);color:var(--cyan);background:#fff;}
+.pill.on{border-color:var(--cyan);background:rgba(0,174,240,.1);color:var(--cyan);font-weight:600;}
+.btn{width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--cyan),#0090c8);border:none;border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;box-shadow:0 4px 12px rgba(0,174,240,.3);}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,174,240,.4);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-s{padding:12px 20px;border-radius:8px;background:#f8f9fa;border:1px solid var(--border);color:var(--text);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-s:hover{border-color:var(--cyan);color:var(--cyan);background:#fff;}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(0,0,0,.1);border-top-color:var(--cyan);animation:sp .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;}
 @keyframes sp{to{transform:rotate(360deg);}}
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);z-index:999;padding:14px 24px;border-radius:40px;font-size:14px;font-weight:500;backdrop-filter:blur(20px);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s;opacity:0;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);z-index:999;padding:14px 24px;border-radius:40px;font-size:14px;font-weight:500;transition:transform .35s,opacity .25s;opacity:0;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:10px;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
-.t-ok{background:rgba(34,211,165,.2);border:1px solid rgba(34,211,165,.4);color:#22d3a5;}
-.t-err{background:rgba(248,113,113,.2);border:1px solid rgba(248,113,113,.4);color:#f87171;}
-.t-info{background:rgba(0,174,240,.2);border:1px solid rgba(0,174,240,.4);color:var(--cyan);}
-.div{height:1px;background:var(--gbord);margin:28px 0;}
+.t-ok{background:rgba(34,211,165,.15);border:1px solid rgba(34,211,165,.3);color:#16a34a;}
+.t-err{background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);color:#dc2626;}
+.t-info{background:rgba(0,174,240,.15);border:1px solid rgba(0,174,240,.3);color:var(--cyan);}
+.div{height:1px;background:var(--border);margin:28px 0;}
 .pwrap{max-width:860px;margin:0 auto;padding:32px 20px 80px;}
 .mstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-.mbox{background:rgba(255,255,255,.05);border:1px solid var(--gbord);border-radius:var(--rs);padding:18px 16px;text-align:center;}
+.mbox{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:18px 16px;text-align:center;}
 .mval{font-family:'DM Serif Display',serif;font-size:26px;color:var(--cyan);}
-.mlbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--tm);margin-top:4px;}
-.msub{font-size:10px;color:var(--tm);margin-top:2px;}
-.mbtrack{height:8px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden;display:flex;}
+.mlbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-top:4px;}
+.msub{font-size:10px;color:var(--text-light);margin-top:2px;}
+.mbtrack{height:8px;background:var(--light);border-radius:8px;overflow:hidden;display:flex;}
 .mbseg{height:100%;transition:width .8s ease;}
 .mleg{display:flex;gap:20px;margin-top:10px;}
 .mdot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle;}
-.moption{background:rgba(255,255,255,.04);border:1px solid var(--gbord);border-radius:var(--rs);padding:18px 20px;margin-bottom:10px;transition:border-color .2s;}
-.moption:hover{border-color:rgba(0,174,240,.3);}
-.mname{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px;}
-.mitems{font-size:13px;color:var(--ts);line-height:1.6;margin-bottom:10px;}
+.moption{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:10px;transition:border-color .2s;}
+.moption:hover{border-color:var(--cyan);}
+.mname{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.mitems{font-size:13px;color:var(--text-light);line-height:1.6;margin-bottom:10px;}
 .mrow{display:flex;gap:10px;flex-wrap:wrap;}
 .chip{font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:20px;border:1px solid;}
-.ck{color:var(--cyan);border-color:rgba(0,174,240,.4);background:rgba(0,174,240,.1);}
-.cp{color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.1);}
-.cc{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.1);}
-.cg{color:#4ade80;border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.1);}
-.dcard{background:rgba(255,255,255,.04);border:1px solid var(--gbord);border-radius:var(--rs);padding:18px 20px;margin-bottom:10px;}
+.ck{color:var(--cyan);border-color:rgba(0,174,240,.3);background:rgba(0,174,240,.08);}
+.cp{color:#dc2626;border-color:rgba(220,38,38,.3);background:rgba(220,38,38,.08);}
+.cc{color:#ca8a04;border-color:rgba(202,138,4,.3);background:rgba(202,138,4,.08);}
+.cg{color:#16a34a;border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.08);}
+.dcard{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:10px;}
 .dhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.dtitle{font-size:14px;font-weight:600;color:#fff;}
-.ibadge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;}
-.ir{background:rgba(100,116,139,.2);color:#94a3b8;border:1px solid rgba(100,116,139,.3);}
-.il{background:rgba(34,211,165,.12);color:#22d3a5;border:1px solid rgba(34,211,165,.3);}
-.im{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3);}
-.ih{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3);}
-.ix{background:rgba(192,38,211,.12);color:#e879f9;border:1px solid rgba(192,38,211,.3);}
-.exlist{font-size:13px;color:var(--ts);line-height:2;}
+.dtitle{font-size:14px;font-weight:600;color:var(--navy);}
+.ibadge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--light);color:var(--text);}
+.exlist{font-size:13px;color:var(--text-light);line-height:2;}
 .shdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
-.sicon{width:36px;height:36px;border-radius:10px;background:rgba(0,174,240,.15);border:1px solid rgba(0,174,240,.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.shdr h3{font-size:17px;font-weight:700;color:#fff;}
-.shdr p{font-size:12px;color:var(--tm);margin-top:2px;}
+.sicon{width:36px;height:36px;border-radius:10px;background:rgba(0,174,240,.1);border:1px solid rgba(0,174,240,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.shdr h3{font-size:17px;font-weight:700;color:var(--navy);}
+.shdr p{font-size:12px;color:var(--text-light);margin-top:2px;}
 .send-row{display:flex;gap:12px;align-items:flex-end;}
 .send-row .field{flex:1;margin-bottom:0;}
 .rlist{list-style:none;display:grid;gap:10px;}
-.rlist li{padding:12px 16px;border-radius:var(--rs);background:rgba(0,174,240,.06);border:1px solid rgba(0,174,240,.15);font-size:14px;color:var(--ts);display:flex;gap:10px;}
-.rlist li::before{content:'✓';color:var(--cyan);font-weight:700;flex-shrink:0;}
-.disc{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:var(--rs);padding:14px 18px;font-size:12px;color:rgba(251,191,36,.8);line-height:1.6;margin-top:24px;}
-.back{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--rs);background:rgba(255,255,255,.07);border:1px solid var(--gbord);color:var(--ts);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:28px;}
-.back:hover{border-color:rgba(0,174,240,.4);color:#fff;}
-.imct{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block;margin-left:6px;vertical-align:middle;}
+.rlist li{padding:12px 16px;border-radius:8px;background:rgba(0,174,240,.08);border:1px solid rgba(0,174,240,.2);font-size:14px;color:var(--text);display:flex;gap:10px;}
+.rlist li::before{content:'?';color:var(--cyan);font-weight:700;flex-shrink:0;}
+.disc{background:rgba(202,138,4,.08);border:1px solid rgba(202,138,4,.2);border-radius:8px;padding:14px 18px;font-size:12px;color:#92400e;line-height:1.6;margin-top:24px;}
+.back{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;background:var(--light);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:28px;}
+.back:hover{border-color:var(--cyan);color:var(--cyan);}
+#pdf-content{display:none;}
 @media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.mstrip{grid-template-columns:repeat(2,1fr);}.card{padding:24px 20px;}.send-row{flex-direction:column;}.hero h1{font-size:2rem;}}
 </style>
 </head>
 <body>
-<div class="bg-scene">
-  <div class="orb o1"></div>
-  <div class="orb o2"></div>
-  <div class="orb o3"></div>
-  <div class="gl"></div>
-</div>
-
 <nav>
   <a class="nbrand" href="#">
     <div class="nlogo">M</div>
     <span class="nname">Metrored</span>
   </a>
-  <span class="ntag">Nutrición Clínica</span>
+  <span class="ntag">Nutrici�n Cl�nica</span>
 </nav>
 
 <div class="page" id="app">
@@ -130,9 +106,9 @@ select option{background:#031d2e;color:#fff;}
 <!-- FORM -->
 <div id="vform">
   <section class="hero">
-    <div class="eyebrow">Metrored Centros Médicos</div>
+    <div class="eyebrow">Metrored Centros M�dicos</div>
     <h1>Plan <em>Nutricional</em><br>Personalizado</h1>
-    <p>Valoración in-situ. Cálculos clínicos basados en Mifflin-St Jeor. Plan completo con dieta y ejercicio adaptado al paciente.</p>
+    <p>Valoraci�n in-situ. C�lculos cl�nicos basados en Mifflin-St Jeor. Plan completo con dieta y ejercicio.</p>
   </section>
 
   <div class="fwrap">
@@ -140,28 +116,28 @@ select option{background:#031d2e;color:#fff;}
       <div class="stitle">Datos del Paciente</div>
       <div class="field">
         <label>Nombre completo</label>
-        <input type="text" id="f-nombre" placeholder="Ej: María Fernández">
+        <input type="text" id="f-nombre" placeholder="Ej: Mar�a Fern�ndez">
       </div>
       <div class="g2">
-        <div class="field"><label>Correo electrónico</label><input type="email" id="f-email" placeholder="paciente@correo.com"></div>
-        <div class="field"><label>Edad (años)</label><input type="number" id="f-edad" placeholder="34" min="5" max="110"></div>
+        <div class="field"><label>Correo electr�nico</label><input type="email" id="f-email" placeholder="paciente@correo.com"></div>
+        <div class="field"><label>Edad (a�os)</label><input type="number" id="f-edad" placeholder="34" min="5" max="110"></div>
       </div>
       <div class="g3">
-        <div class="field"><label>Sexo biológico</label><select id="f-sexo"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
+        <div class="field"><label>Sexo</label><select id="f-sexo"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
         <div class="field"><label>Peso (kg)</label><input type="number" id="f-peso" placeholder="70" step="0.1" min="20" max="300"></div>
         <div class="field"><label>Altura (cm)</label><input type="number" id="f-altura" placeholder="165" min="100" max="250"></div>
       </div>
       <div class="div"></div>
-      <div class="stitle">Objetivo Principal</div>
-      <div class="pills" id="pg"><button class="pill on" data-v="perder">↓ Perder peso</button><button class="pill" data-v="mantener">→ Mantener</button><button class="pill" data-v="ganar">↑ Ganar músculo</button></div>
+      <div class="stitle">Objetivo</div>
+      <div class="pills" id="pg"><button class="pill on" data-v="perder">? Perder peso</button><button class="pill" data-v="mantener">? Mantener</button><button class="pill" data-v="ganar">? Ganar m�sculo</button></div>
       <div class="div"></div>
-      <div class="stitle">Nivel de Actividad Física</div>
-      <div class="field"><select id="f-act"><option value="sedentario">Sedentario · poco o ningún ejercicio</option><option value="leve">Leve · 1-2 días/semana</option><option value="moderado" selected>Moderado · 3-4 días/semana</option><option value="intenso">Intenso · 5-6 días/semana</option><option value="muy_intenso">Muy intenso · atleta o trabajo físico diario</option></select></div>
+      <div class="stitle">Actividad F�sica</div>
+      <div class="field"><select id="f-act"><option value="sedentario">Sedentario</option><option value="leve">Leve (1-2 d�as/semana)</option><option value="moderado" selected>Moderado (3-4 d�as/semana)</option><option value="intenso">Intenso (5-6 d�as/semana)</option><option value="muy_intenso">Muy intenso (atleta)</option></select></div>
       <div class="div"></div>
       <div class="stitle">Entrenamiento</div>
-      <div class="pills" id="pa"><button class="pill on" data-v="true">🏋️ Con gimnasio</button><button class="pill" data-v="false">🏠 En casa</button></div>
+      <div class="pills" id="pa"><button class="pill on" data-v="true">??? Con gimnasio</button><button class="pill" data-v="false">?? En casa</button></div>
       <div class="div"></div>
-      <button class="btn" id="btn-gen" onclick="generarPlan()">Generar plan personalizado →</button>
+      <button class="btn" id="btn-gen" onclick="generarPlan()">Generar plan personalizado ?</button>
     </div>
   </div>
 </div>
@@ -169,41 +145,90 @@ select option{background:#031d2e;color:#fff;}
 <!-- PLAN -->
 <div id="vplan" style="display:none;">
   <div class="pwrap">
-    <button class="back" onclick="volverForm()">← Nuevo plan</button>
+    <button class="back" onclick="volverForm()">? Nuevo plan</button>
     <div class="card" style="margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
         <div>
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:6px;">Plan Nutricional · Metrored</div>
-          <h2 id="pnombre" style="font-family:'DM Serif Display',serif;font-size:2rem;color:#fff;"></h2>
-          <div id="pfecha" style="font-size:13px;color:var(--tm);margin-top:4px;"></div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:6px;">Plan Nutricional � Metrored</div>
+          <h2 id="pnombre" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);"></h2>
+          <div id="pfecha" style="font-size:13px;color:var(--text-light);margin-top:4px;"></div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-s" onclick="descargarPlan()">⬇ Descargar</button>
-          <button class="btn" style="width:auto;padding:12px 20px;" onclick="toggleEnvio()">✉ Enviar por correo</button>
+          <button class="btn-s" onclick="descargarPDF()">?? Descargar PDF</button>
+          <button class="btn" style="width:auto;padding:12px 20px;" onclick="toggleEnvio()">? Enviar correo</button>
         </div>
       </div>
 
       <div class="mstrip" id="mstrip"></div>
       <div style="margin-top:4px;"><div class="mbtrack" id="mbar"></div><div class="mleg" id="mleg"></div></div>
 
-      <!-- SEND PANEL -->
       <div id="spanel" style="display:none;margin-top:24px;">
         <div class="div" style="margin-top:0;"></div>
         <div class="shdr">
-          <div class="sicon">✉</div>
-          <div><h3>Enviar plan al paciente</h3><p>Cloudflare Worker · Microsoft 365 · Metrored</p></div>
+          <div class="sicon">?</div>
+          <div><h3>Enviar plan al paciente</h3><p>PDF profesional v�a Microsoft 365</p></div>
         </div>
         <div class="send-row">
           <div class="field"><label>Correo destino</label><input type="email" id="semail" placeholder="paciente@correo.com"></div>
-          <button class="btn" style="width:auto;padding:13px 24px;white-space:nowrap;" id="btnSend" onclick="enviarCorreo()">Enviar →</button>
+          <button class="btn" style="width:auto;padding:13px 24px;white-space:nowrap;" id="btnSend" onclick="enviarCorreo()">Enviar ?</button>
         </div>
-        <div id="sstatus" style="font-size:13px;color:var(--tm);margin-top:10px;line-height:1.6;"></div>
+        <div id="sstatus" style="font-size:13px;color:var(--text-light);margin-top:10px;line-height:1.6;"></div>
+      </div>
+    </div>
+
+    <div id="pdf-content" style="background:#fff;color:#333;padding:40px;font-family:Arial,sans-serif;">
+      <div style="text-align:center;margin-bottom:40px;border-bottom:2px solid var(--cyan);padding-bottom:20px;">
+        <div style="font-size:32px;font-weight:bold;color:var(--navy);margin-bottom:5px;">METRORED</div>
+        <div style="font-size:14px;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;">Centros M�dicos</div>
+        <div style="font-size:12px;color:#666;margin-top:15px;">Plan Nutricional Personalizado</div>
+      </div>
+      <div style="margin-bottom:30px;">
+        <h2 id="pdf-nombre" style="font-size:22px;color:var(--navy);margin-bottom:5px;"></h2>
+        <div id="pdf-fecha" style="font-size:12px;color:#666;"></div>
+      </div>
+      <table style="width:100%;margin-bottom:30px;border-collapse:collapse;">
+        <tr style="background:var(--navy);color:white;">
+          <th style="padding:12px;text-align:left;">M�trica</th>
+          <th style="padding:12px;text-align:left;">Valor</th>
+        </tr>
+        <tr style="background:#f9f9f9;">
+          <td style="padding:12px;border-bottom:1px solid var(--border);font-weight:bold;">IMC</td>
+          <td style="padding:12px;border-bottom:1px solid var(--border);" id="pdf-imc"></td>
+        </tr>
+        <tr>
+          <td style="padding:12px;border-bottom:1px solid var(--border);font-weight:bold;">TMB (kcal/d�a)</td>
+          <td style="padding:12px;border-bottom:1px solid var(--border);" id="pdf-tmb"></td>
+        </tr>
+        <tr style="background:#f9f9f9;">
+          <td style="padding:12px;border-bottom:1px solid var(--border);font-weight:bold;">TDEE (kcal/d�a)</td>
+          <td style="padding:12px;border-bottom:1px solid var(--border);" id="pdf-tdee"></td>
+        </tr>
+        <tr>
+          <td style="padding:12px;border-bottom:1px solid var(--border);font-weight:bold;">Meta Cal�rica</td>
+          <td style="padding:12px;border-bottom:1px solid var(--border);" id="pdf-meta"></td>
+        </tr>
+      </table>
+      <div style="margin-bottom:30px;">
+        <h3 style="color:var(--navy);margin-bottom:15px;border-bottom:2px solid var(--cyan);padding-bottom:10px;">Macronutrientes Diarios</h3>
+        <p>Prote�na: <strong id="pdf-p"></strong> | Carbohidratos: <strong id="pdf-c"></strong> | Grasas: <strong id="pdf-g"></strong></p>
+      </div>
+      <div style="margin-bottom:30px;">
+        <h3 style="color:var(--navy);margin-bottom:15px;border-bottom:2px solid var(--cyan);padding-bottom:10px;">Plan Nutricional</h3>
+        <div id="pdf-comidas" style="line-height:1.8;font-size:12px;"></div>
+      </div>
+      <div style="margin-bottom:30px;">
+        <h3 style="color:var(--navy);margin-bottom:15px;border-bottom:2px solid var(--cyan);padding-bottom:10px;">Plan de Entrenamiento</h3>
+        <div id="pdf-ejercicio" style="line-height:1.8;font-size:12px;"></div>
+      </div>
+      <div style="margin-top:40px;padding-top:20px;border-top:2px solid var(--border);">
+        <p style="font-size:11px;color:#666;text-align:center;">Plan orientativo de 30 d�as. Se recomienda seguimiento con m�dico y nutricionista de Metrored.</p>
+        <p style="font-size:11px;color:#666;text-align:center;margin-top:10px;font-weight:bold;">� 2026 Metrored Centros M�dicos</p>
       </div>
     </div>
 
     <div class="card" style="margin-bottom:24px;">
       <div class="shdr">
-        <div class="sicon">🍽</div>
+        <div class="sicon">??</div>
         <div><h3>Plan Nutricional Diario</h3><p id="pcalsub"></p></div>
       </div>
       <div id="pcomidas"></div>
@@ -211,203 +236,59 @@ select option{background:#031d2e;color:#fff;}
 
     <div class="card" style="margin-bottom:24px;">
       <div class="shdr">
-        <div class="sicon">💪</div>
-        <div><h3 id="etitulo">Entrenamiento</h3><p>5 días semanales · intensidad progresiva</p></div>
+        <div class="sicon">??</div>
+        <div><h3 id="etitulo">Entrenamiento</h3><p>5 d�as semanales</p></div>
       </div>
       <div id="pejercicio"></div>
     </div>
 
     <div class="card" style="margin-bottom:24px;">
       <div class="shdr">
-        <div class="sicon">📋</div>
-        <div><h3>Recomendaciones Clínicas</h3><p>Pautas para asegurar el progreso</p></div>
+        <div class="sicon">??</div>
+        <div><h3>Recomendaciones</h3><p>Pautas de �xito</p></div>
       </div>
       <ul class="rlist" id="precs"></ul>
-      <div class="disc">⚠ Plan orientativo de 30 días basado en valoración general in-situ. Se recomienda seguimiento con médico y nutricionista certificada de Metrored.</div>
+      <div class="disc">? Plan orientativo de 30 d�as. Se recomienda seguimiento con m�dico y nutricionista certificada de Metrored.</div>
     </div>
   </div>
 </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-// ─── CONFIG ────────────────────────────────────────────
-// El Worker se despliega en Cloudflare, no necesitas credenciales aquí
-const WORKER_URL = 'https://02fcc7c2.metrored-nutrition-worker.pages.dev'; // ← cambiar a tu dominio Cloudflare
-
+const WORKER_URL = 'https://02fcc7c2.metrored-nutrition-worker.pages.dev';
 const S = { obj:'perder', gym:true, plan:null };
 
-// ─── PILLS ─────────────────────────────────────────────
-document.querySelectorAll('#pg .pill').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('#pg .pill').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); S.obj=b.dataset.v;
-  });
-});
-document.querySelectorAll('#pa .pill').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('#pa .pill').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); S.gym=b.dataset.v==='true';
-  });
-});
+document.querySelectorAll('#pg .pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#pg .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');S.obj=b.dataset.v;}));
+document.querySelectorAll('#pa .pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#pa .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');S.gym=b.dataset.v==='true';}));
 
-// ─── CLÍNICA ────────────────────────────────────────────
 function tmb(p,a,e,s){return s==='M'?Math.round(10*p+6.25*a-5*e+5):Math.round(10*p+6.25*a-5*e-161);}
 function tdee(t,ac){return Math.round(t*{sedentario:1.2,leve:1.375,moderado:1.55,intenso:1.725,muy_intenso:1.9}[ac]);}
 function meta(td,ob){return ob==='perder'?Math.round(td*.82):ob==='ganar'?Math.round(td*1.1):td;}
-function macros(k,ob){const r={perder:{p:.35,c:.33,g:.32},mantener:{p:.30,c:.40,g:.30},ganar:{p:.30,c:.45,g:.25}}[ob];return {p:Math.round(k*r.p/4),c:Math.round(k*r.c/4),g:Math.round(k*r.g/9),r};}
+function macros(k,ob){const r={perder:{p:.35,c:.33,g:.32},mantener:{p:.30,c:.40,g:.30},ganar:{p:.30,c:.45,g:.25}}[ob];return{p:Math.round(k*r.p/4),c:Math.round(k*r.c/4),g:Math.round(k*r.g/9),r};}
 function imc(p,a){return Math.round(p/Math.pow(a/100,2)*10)/10;}
 function imcInfo(v){if(v<18.5)return{l:'Bajo peso',c:'il'};if(v<25)return{l:'Normal',c:'il'};if(v<30)return{l:'Sobrepeso',c:'im'};return{l:'Obesidad',c:'ih'};}
 
-// ─── COMIDAS ────────────────────────────────────────────
-const COM={
-  desayuno:{em:'🌅',lb:'Desayuno',ops:[
-    {n:'Avena proteica con frutos rojos',its:['50 g avena','200 ml leche descremada','25 g proteína de suero','Arándanos y fresas'],k:365,p:32,c:44,g:7},
-    {n:'Huevos revueltos + tostadas integrales',its:['2 huevos + 2 claras','2 tostadas integral','1 tomate','Espinaca fresca'],k:335,p:28,c:34,g:9},
-    {n:'Bowl de yogur griego + granola',its:['200 g yogur griego 0%','40 g granola sin azúcar','1 banana','15 g nueces'],k:390,p:24,c:47,g:11}
-  ]},
-  almuerzo:{em:'☀️',lb:'Almuerzo',ops:[
-    {n:'Pechuga de pollo + arroz integral',its:['180 g pechuga a la plancha','150 g arroz integral','100 g brócoli','1 cdita aceite oliva'],k:520,p:46,c:52,g:11},
-    {n:'Salmón al horno + batata',its:['180 g salmón','150 g batata asada','100 g judías verdes','Limón y hierbas'],k:500,p:43,c:45,g:13},
-    {n:'Carne magra + ensalada completa',its:['150 g lomo de res','100 g pasta integral','Tomate, lechuga, pepino','1 cdita aceite oliva'],k:510,p:44,c:50,g:10}
-  ]},
-  merienda:{em:'🍎',lb:'Merienda',ops:[
-    {n:'Batido de proteína + fruta',its:['25 g proteína en polvo','200 ml agua','1 banana','Hielo'],k:225,p:28,c:26,g:2},
-    {n:'Frutos secos + manzana',its:['30 g almendras o nueces','1 manzana mediana','Agua sin gas'],k:235,p:7,c:27,g:13}
-  ]},
-  cena:{em:'🌙',lb:'Cena',ops:[
-    {n:'Pavo a la plancha + vegetales',its:['160 g pechuga de pavo','150 g verduras al vapor','50 g arroz blanco'],k:355,p:42,c:30,g:6},
-    {n:'Tortilla de claras + vegetales',its:['4 claras + 1 yema','150 g champiñones y zucchini','1 cdita aceite coco'],k:280,p:29,c:14,g:11},
-    {n:'Merluza al vapor + ensalada verde',its:['200 g filete de merluza','100 g espárragos','Mix hojas verdes','Vinagre balsámico'],k:265,p:38,c:12,g:6}
-  ]}
-};
+const COM={desayuno:{em:'??',lb:'Desayuno',ops:[{n:'Avena proteica con frutos rojos',its:['50 g avena','200 ml leche descremada','25 g prote�na','Ar�ndanos'],k:365,p:32,c:44,g:7},{n:'Huevos revueltos + tostadas',its:['2 huevos + 2 claras','2 tostadas integral','1 tomate','Espinaca'],k:335,p:28,c:34,g:9},{n:'Yogur griego + granola',its:['200 g yogur griego','40 g granola','1 banana','15 g nueces'],k:390,p:24,c:47,g:11}]},almuerzo:{em:'??',lb:'Almuerzo',ops:[{n:'Pechuga de pollo + arroz',its:['180 g pechuga','150 g arroz integral','100 g br�coli','Aceite de oliva'],k:520,p:46,c:52,g:11},{n:'Salm�n + batata',its:['180 g salm�n','150 g batata asada','100 g jud�as verdes'],k:500,p:43,c:45,g:13},{n:'Carne magra + ensalada',its:['150 g lomo','100 g pasta integral','Tomate, lechuga, pepino'],k:510,p:44,c:50,g:10}]},merienda:{em:'??',lb:'Merienda',ops:[{n:'Batido de prote�na',its:['25 g prote�na en polvo','200 ml agua','1 banana','Hielo'],k:225,p:28,c:26,g:2},{n:'Frutos secos + manzana',its:['30 g almendras','1 manzana mediana'],k:235,p:7,c:27,g:13}]},cena:{em:'??',lb:'Cena',ops:[{n:'Pavo + vegetales',its:['160 g pechuga de pavo','150 g verduras','50 g arroz blanco'],k:355,p:42,c:30,g:6},{n:'Tortilla + vegetales',its:['4 claras + 1 yema','150 g champi�ones','Aceite de coco'],k:280,p:29,c:14,g:11},{n:'Merluza + ensalada',its:['200 g filete','100 g esp�rragos','Mix hojas verdes'],k:265,p:38,c:12,g:6}]}};
 
-// ─── EJERCICIO ─────────────────────────────────────────
-const EGYM=[
-  {d:'Lunes · Pecho & Tríceps',i:'Alta',ic:'ih',ex:['Press banca: 4×8-10','Aperturas mancuernas: 3×10-12','Fondos paralelas: 3×8-10','Press francés EZ: 3×10-12','Cardio 10 min (bici/caminadora)']},
-  {d:'Martes · Espalda & Bíceps',i:'Alta',ic:'ih',ex:['Dominadas o jalón: 4×6-10','Remo mancuerna: 4×8-10 c/lado','Remo polea baja: 3×10-12','Curl martillo: 3×10-12','Curl Scott: 3×12']},
-  {d:'Miércoles · Descanso activo',i:'Baja',ic:'il',ex:['Caminata 40-50 min a ritmo cómodo','Estiramientos generales: 20 min','Movilidad articular y foam rolling']},
-  {d:'Jueves · Piernas & Core',i:'Muy Alta',ic:'ix',ex:['Sentadillas: 4×8-10','Prensa de piernas: 3×10-12','Peso muerto rumano: 3×8-10','Elevación de talones: 3×15-20','Plancha: 3×45-60 seg · Crunches: 3×15']},
-  {d:'Viernes · Hombros & Full Body',i:'Moderada',ic:'im',ex:['Press militar: 4×8-10','Elevaciones laterales: 3×12-15','Sentadilla goblet: 3×12','Remo parado: 3×12','HIIT: 15 min (30/30)']},
-  {d:'Sáb & Dom · Recuperación',i:'Descanso',ic:'ir',ex:['Actividad recreativa suave','Nadar, caminar o estirar','Priorizar sueño y nutrición de recuperación']}
-];
-const ECASA=[
-  {d:'Lunes · Tren Superior',i:'Alta',ic:'ih',ex:['Push-ups: 4×12-15','Flexiones inclinadas: 3×12','Dips entre sillas: 3×8-12','Superman: 3×15','Trote ligero: 15 min']},
-  {d:'Martes · Tren Inferior',i:'Alta',ic:'ih',ex:['Sentadillas libres: 4×15-20','Estocadas: 3×12 c/pierna','Glute bridge: 3×20','Elevación talones en escalón: 3×20','Saltar cuerda: 5 min']},
-  {d:'Miércoles · Cardio & Movilidad',i:'Moderada',ic:'im',ex:['Trote o bici estática: 35 min','Yoga o pilates: 20 min','Estiramientos cadena posterior']},
-  {d:'Jueves · Full Body Intenso',i:'Muy Alta',ic:'ix',ex:['Burpees: 3×10','Mountain climbers: 3×20','Sentadillas explosivas: 3×12','Push-ups diamante: 3×8-10','Plancha lateral: 3×40 seg/lado']},
-  {d:'Viernes · Circuito',i:'Moderada',ic:'im',ex:['3 rondas (60 seg descanso entre rondas):','— 15 sent · 12 push-ups · 10 estocadas c/p','— 20 crunches · 30 seg plancha · 15 glute bridge','Estiramientos finales: 10 min']},
-  {d:'Sáb & Dom · Recuperación',i:'Descanso',ic:'ir',ex:['Caminata, natación o bici suave','Movilidad y respiración diafragmática','Preparar nutrición de la semana']}
-];
+const EGYM=[{d:'Lunes � Pecho & Tr�ceps',i:'Alta',ex:['Press banca: 4�8-10','Aperturas mancuernas: 3�10-12','Fondos paralelas: 3�8-10','Press franc�s: 3�10-12','Cardio 10 min']},{d:'Martes � Espalda & B�ceps',i:'Alta',ex:['Dominadas: 4�6-10','Remo mancuerna: 4�8-10','Remo polea: 3�10-12','Curl martillo: 3�10-12','Curl Scott: 3�12']},{d:'Mi�rcoles � Descanso activo',i:'Baja',ex:['Caminata 40-50 min','Estiramientos 20 min','Movilidad articular']},{d:'Jueves � Piernas & Core',i:'Muy Alta',ex:['Sentadillas: 4�8-10','Prensa piernas: 3�10-12','Peso muerto rumano: 3�8-10','Elevaci�n talones: 3�15-20','Plancha: 3�45-60 seg']},{d:'Viernes � Hombros & Full Body',i:'Moderada',ex:['Press militar: 4�8-10','Elevaciones laterales: 3�12-15','Sentadilla goblet: 3�12','Remo parado: 3�12','HIIT: 15 min']},{d:'S�bado & Domingo � Recuperaci�n',i:'Descanso',ex:['Actividad recreativa suave','Nadar o caminar','Priorizar sue�o']}];
+const ECASA=[{d:'Lunes � Tren Superior',i:'Alta',ex:['Push-ups: 4�12-15','Flexiones inclinadas: 3�12','Dips: 3�8-12','Superman: 3�15','Trote ligero: 15 min']},{d:'Martes � Tren Inferior',i:'Alta',ex:['Sentadillas: 4�15-20','Estocadas: 3�12 c/pierna','Glute bridge: 3�20','Elevaci�n talones: 3�20','Saltar cuerda: 5 min']},{d:'Mi�rcoles � Cardio & Movilidad',i:'Moderada',ex:['Trote o bici: 35 min','Yoga o pilates: 20 min','Estiramientos']},{d:'Jueves � Full Body Intenso',i:'Muy Alta',ex:['Burpees: 3�10','Mountain climbers: 3�20','Sentadillas explosivas: 3�12','Push-ups diamante: 3�8-10','Plancha lateral: 3�40 seg']},{d:'Viernes � Circuito',i:'Moderada',ex:['3 rondas (60 seg descanso)','15 sentadillas � 12 push-ups � 10 estocadas','20 crunches � 30 seg plancha � 15 glute bridge','Estiramientos finales: 10 min']},{d:'S�bado & Domingo � Recuperaci�n',i:'Descanso',ex:['Caminata o nataci�n suave','Movilidad','Preparar nutrici�n']}];
 
-function generarPlan(){
-  const nom=document.getElementById('f-nombre').value.trim();
-  const ema=document.getElementById('f-email').value.trim();
-  const eda=parseInt(document.getElementById('f-edad').value);
-  const sex=document.getElementById('f-sexo').value;
-  const pes=parseFloat(document.getElementById('f-peso').value);
-  const alt=parseFloat(document.getElementById('f-altura').value);
-  const act=document.getElementById('f-act').value;
-  if(!nom||!pes||!alt||!eda){toast('Completa todos los campos obligatorios','t-err');return;}
-  if(eda<5||eda>110){toast('Edad inválida','t-err');return;}
-  if(pes<20||pes>300){toast('Peso fuera de rango','t-err');return;}
-  if(alt<100||alt>250){toast('Altura fuera de rango','t-err');return;}
-  const T=tmb(pes,alt,eda,sex),TD=tdee(T,act),ME=meta(TD,S.obj);
-  const MA=macros(ME,S.obj),IM=imc(pes,alt),II=imcInfo(IM);
-  S.plan={nom,ema,eda,sex,pes,alt,act,obj:S.obj,gym:S.gym,T,TD,ME,MA,IM,II,fecha:new Date().toLocaleDateString('es-EC',{year:'numeric',month:'long',day:'numeric'})};
-  renderPlan(S.plan);
-  document.getElementById('vform').style.display='none';
-  document.getElementById('vplan').style.display='block';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function generarPlan(){const nom=document.getElementById('f-nombre').value.trim();const ema=document.getElementById('f-email').value.trim();const eda=parseInt(document.getElementById('f-edad').value);const sex=document.getElementById('f-sexo').value;const pes=parseFloat(document.getElementById('f-peso').value);const alt=parseFloat(document.getElementById('f-altura').value);const act=document.getElementById('f-act').value;if(!nom||!pes||!alt||!eda){toast('Completa todos los campos','t-err');return;}if(eda<5||eda>110){toast('Edad inv�lida','t-err');return;}if(pes<20||pes>300){toast('Peso fuera de rango','t-err');return;}if(alt<100||alt>250){toast('Altura fuera de rango','t-err');return;}const T=tmb(pes,alt,eda,sex);const TD=tdee(T,act);const ME=meta(TD,S.obj);const MA=macros(ME,S.obj);const IM=imc(pes,alt);const II=imcInfo(IM);S.plan={nom,ema,eda,sex,pes,alt,act,obj:S.obj,gym:S.gym,T,TD,ME,MA,IM,II,fecha:new Date().toLocaleDateString('es-EC',{year:'numeric',month:'long',day:'numeric'})};renderPlan(S.plan);document.getElementById('vform').style.display='none';document.getElementById('vplan').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
 
-function renderPlan(p){
-  document.getElementById('pnombre').textContent=p.nom;
-  document.getElementById('pfecha').textContent=`Generado el ${p.fecha}`;
-  document.getElementById('semail').value=p.ema||'';
-  document.getElementById('pcalsub').textContent=`${p.ME.toLocaleString()} kcal diarias · ${{perder:'pérdida de peso',mantener:'mantenimiento',ganar:'ganancia muscular'}[p.obj]}`;
-  document.getElementById('mstrip').innerHTML=`
-    <div class="mbox"><div class="mval">${p.IM}<span class="imct ${p.II.c}" style="font-size:9px;">${p.II.l}</span></div><div class="mlbl">IMC</div></div>
-    <div class="mbox"><div class="mval">${p.T.toLocaleString()}</div><div class="mlbl">TMB</div><div class="msub">kcal/día</div></div>
-    <div class="mbox"><div class="mval">${p.TD.toLocaleString()}</div><div class="mlbl">TDEE</div><div class="msub">kcal/día</div></div>
-    <div class="mbox"><div class="mval">${p.ME.toLocaleString()}</div><div class="mlbl">Meta</div><div class="msub">kcal/día</div></div>`;
-  const r=p.MA.r;
-  document.getElementById('mbar').innerHTML=`
-    <div class="mbseg" style="width:${r.p*100}%;background:#f87171;"></div>
-    <div class="mbseg" style="width:${r.c*100}%;background:#fbbf24;"></div>
-    <div class="mbseg" style="width:${r.g*100}%;background:#4ade80;"></div>`;
-  document.getElementById('mleg').innerHTML=`
-    <span style="font-size:13px;color:var(--ts);"><span class="mdot" style="background:#f87171;"></span>Proteína <strong style="color:#f87171;">${p.MA.p}g</strong></span>
-    <span style="font-size:13px;color:var(--ts);"><span class="mdot" style="background:#fbbf24;"></span>Carbos <strong style="color:#fbbf24;">${p.MA.c}g</strong></span>
-    <span style="font-size:13px;color:var(--ts);"><span class="mdot" style="background:#4ade80;"></span>Grasas <strong style="color:#4ade80;">${p.MA.g}g</strong></span>`;
-  let html='';
-  ['desayuno','almuerzo','merienda','cena'].forEach(k=>{const c=COM[k];html+=`<div style="margin-bottom:24px;"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;">${c.em} ${c.lb}</div>${c.ops.map(o=>`<div class="moption"><div class="mname">${o.n}</div><div class="mitems">${o.its.join(' · ')}</div><div class="mrow"><span class="chip ck">${o.k} kcal</span><span class="chip cp">P ${o.p}g</span><span class="chip cc">C ${o.c}g</span><span class="chip cg">G ${o.g}g</span></div></div>`).join('')}</div>`;});
-  document.getElementById('pcomidas').innerHTML=html;
-  const dias=p.gym?EGYM:ECASA;
-  document.getElementById('etitulo').textContent=p.gym?'Entrenamiento en Gimnasio':'Entrenamiento en Casa';
-  document.getElementById('pejercicio').innerHTML=dias.map(d=>`<div class="dcard"><div class="dhdr"><span class="dtitle">${d.d}</span><span class="ibadge ${d.ic}">${d.i}</span></div><div class="exlist">${d.ex.join('<br>')}</div></div>`).join('');
-  const recs=['Beber 35 ml de agua por kg de peso corporal al día','Dormir 7-9 horas para optimizar la recuperación',`Revisión de seguimiento en ${p.obj==='perder'?'4':'6'} semanas con nutricionista Metrored`,'Registrar peso cada lunes en ayunas, misma hora','Distribuir comidas cada 3-4 horas para estabilizar glucemia','Incrementar la intensidad del ejercicio de forma progresiva','Consultar al médico ante cualquier síntoma inusual durante el plan'];
-  document.getElementById('precs').innerHTML=recs.map(r=>`<li>${r}</li>`).join('');
-}
+function renderPlan(p){document.getElementById('pnombre').textContent=p.nom;document.getElementById('pfecha').textContent=`Generado el ${p.fecha}`;document.getElementById('semail').value=p.ema||'';document.getElementById('pcalsub').textContent=`${p.ME.toLocaleString()} kcal � ${{perder:'p�rdida de peso',mantener:'mantenimiento',ganar:'ganancia muscular'}[p.obj]}`;document.getElementById('mstrip').innerHTML=`<div class="mbox"><div class="mval">${p.IM}</div><div class="mlbl">IMC (${p.II.l})</div></div><div class="mbox"><div class="mval">${p.T.toLocaleString()}</div><div class="mlbl">TMB kcal/d�a</div></div><div class="mbox"><div class="mval">${p.TD.toLocaleString()}</div><div class="mlbl">TDEE kcal/d�a</div></div><div class="mbox"><div class="mval">${p.ME.toLocaleString()}</div><div class="mlbl">Meta kcal/d�a</div></div>`;const r=p.MA.r;document.getElementById('mbar').innerHTML=`<div class="mbseg" style="width:${r.p*100}%;background:#dc2626;"></div><div class="mbseg" style="width:${r.c*100}%;background:#ca8a04;"></div><div class="mbseg" style="width:${r.g*100}%;background:#16a34a;"></div>`;document.getElementById('mleg').innerHTML=`<span><span class="mdot" style="background:#dc2626;"></span>Prote�na <strong>${p.MA.p}g</strong></span><span><span class="mdot" style="background:#ca8a04;"></span>Carbos <strong>${p.MA.c}g</strong></span><span><span class="mdot" style="background:#16a34a;"></span>Grasas <strong>${p.MA.g}g</strong></span>`;let html='';['desayuno','almuerzo','merienda','cena'].forEach(k=>{const c=COM[k];html+=`<div style="margin-bottom:24px;"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;">${c.em} ${c.lb}</div>${c.ops.map(o=>`<div class="moption"><div class="mname">${o.n}</div><div class="mitems">${o.its.join(' � ')}</div><div class="mrow"><span class="chip ck">${o.k} kcal</span><span class="chip cp">P ${o.p}g</span><span class="chip cc">C ${o.c}g</span><span class="chip cg">G ${o.g}g</span></div></div>`).join('')}</div>`;});document.getElementById('pcomidas').innerHTML=html;const dias=p.gym?EGYM:ECASA;document.getElementById('etitulo').textContent=p.gym?'Entrenamiento en Gimnasio':'Entrenamiento en Casa';document.getElementById('pejercicio').innerHTML=dias.map(d=>`<div class="dcard"><div class="dhdr"><span class="dtitle">${d.d}</span><span class="ibadge">${d.i}</span></div><div class="exlist">${d.ex.join('<br>')}</div></div>`).join('');const recs=['Beber 35 ml agua/kg peso corporal','Dormir 7-9 horas diarias','Registrar peso cada lunes en ayunas','Distribuir comidas cada 3-4 horas','Incrementar intensidad progresivamente','Consultar m�dico ante s�ntomas inusuales'];document.getElementById('precs').innerHTML=recs.map(r=>`<li>${r}</li>`).join('');document.getElementById('pdf-nombre').textContent=p.nom;document.getElementById('pdf-fecha').textContent=`Generado el ${p.fecha}`;document.getElementById('pdf-imc').textContent=`${p.IM} (${p.II.l})`;document.getElementById('pdf-tmb').textContent=p.T.toLocaleString();document.getElementById('pdf-tdee').textContent=p.TD.toLocaleString();document.getElementById('pdf-meta').textContent=p.ME.toLocaleString();document.getElementById('pdf-p').textContent=`${p.MA.p}g`;document.getElementById('pdf-c').textContent=`${p.MA.c}g`;document.getElementById('pdf-g').textContent=`${p.MA.g}g`;let pdfComidas='';['desayuno','almuerzo','merienda','cena'].forEach(k=>{const c=COM[k];pdfComidas+=`<strong>${c.em} ${c.lb}</strong><br>`;c.ops.forEach((o,i)=>{pdfComidas+=`Opci�n ${i+1}: ${o.n}<br>${o.its.join(' � ')}<br>${o.k} kcal | P${o.p}g | C${o.c}g | G${o.g}g<br><br>`;});});document.getElementById('pdf-comidas').innerHTML=pdfComidas;let pdfEjercicio='';dias.forEach(d=>{pdfEjercicio+=`<strong>${d.d}</strong><br>${d.ex.join('<br>')}<br><br>`;});document.getElementById('pdf-ejercicio').innerHTML=pdfEjercicio;}
 
-function toggleEnvio(){const p=document.getElementById('spanel');p.style.display=p.style.display==='none'?'block':'none';if(p.style.display==='block')p.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function toggleEnvio(){const p=document.getElementById('spanel');p.style.display=p.style.display==='none'?'block':'none';if(p.style.display==='block')p.scrollIntoView({behavior:'smooth'});}
 
-async function enviarCorreo(){
-  const dest=document.getElementById('semail').value.trim();
-  if(!dest||!dest.includes('@')){toast('Ingresa un correo válido','t-err');return;}
-  const btn=document.getElementById('btnSend');
-  const st=document.getElementById('sstatus');
-  btn.disabled=true;
-  btn.innerHTML='<span class="spin"></span>Enviando…';
-  st.style.color='var(--tm)';
-  st.textContent='Contactando Cloudflare Worker…';
-  try{
-    const html=buildEmail(S.plan);
-    const res=await fetch(`${WORKER_URL}/api/send-email`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:dest,subject:'Tu Plan Nutricional Personalizado · Metrored',html})
-    });
-    const data=await res.json();
-    if(res.ok){toast('✓ Correo enviado exitosamente','t-ok');st.innerHTML=`<span style="color:var(--ok);">✓ Plan enviado a <strong>${dest}</strong></span>`;}
-    else{toast('Error: '+data.error,'t-err');st.innerHTML=`<span style="color:var(--err);">✗ ${data.error}</span>`;}
-  }catch(err){console.error(err);toast('Error: '+err.message,'t-err');st.innerHTML=`<span style="color:var(--err);">✗ ${err.message}</span>`;}finally{btn.disabled=false;btn.textContent='Enviar →';}
-}
+async function enviarCorreo(){const dest=document.getElementById('semail').value.trim();if(!dest||!dest.includes('@')){toast('Correo inv�lido','t-err');return;}const btn=document.getElementById('btnSend');const st=document.getElementById('sstatus');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Enviando�';st.style.color='var(--text-light)';st.textContent='Generando PDF�';try{const pdfContent=document.getElementById('pdf-content');const opt={margin:10,filename:'Plan_Nutricional.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2},jsPDF:{orientation:'portrait',unit:'mm',format:'a4'}};html2pdf().set(opt).from(pdfContent).output('blob').then(async blob=>{const reader=new FileReader();reader.onload=async()=>{const pdfBase64=reader.result.split(',')[1];st.textContent='Enviando correo�';const res=await fetch(`${WORKER_URL}/api/send-email`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:dest,subject:'Tu Plan Nutricional Personalizado � Metrored',html:buildEmail(S.plan)})});const data=await res.json();if(res.ok){toast('? Correo enviado','t-ok');st.innerHTML=`<span style="color:#16a34a;">? Plan enviado a ${dest}</span>`;}else{toast('Error: '+data.error,'t-err');st.innerHTML=`<span style="color:#dc2626;">? ${data.error}</span>`;}btn.disabled=false;btn.textContent='Enviar ?';};reader.readAsDataURL(blob);});}catch(err){console.error(err);toast('Error','t-err');st.innerHTML=`<span style="color:#dc2626;">? ${err.message}</span>`;btn.disabled=false;btn.textContent='Enviar ?';}}
 
-function buildEmail(p){
-  const seg=(c,pct)=>`background:${c};height:100%;width:${Math.round(pct*100)}%;display:inline-block;`;
-  const dias=p.gym?EGYM:ECASA;
-  const cRows=['desayuno','almuerzo','merienda','cena'].map(k=>{const c=COM[k];return`<tr><td colspan="2"style="padding:18px 0 6px;"><strong style="color:#00AEF0;font-size:12px;text-transform:uppercase;letter-spacing:1px;">${c.em} ${c.lb}</strong></td></tr>`+c.ops.map(o=>`<tr><td style="padding:10px 0 10px 14px;border-left:2px solid #00AEF0;"><div style="font-weight:600;font-size:14px;color:#fff;margin-bottom:4px;">${o.n}</div><div style="font-size:12px;color:#999;margin-bottom:8px;">${o.its.join(' · ')}</div><span style="background:rgba(0,174,240,.2);color:#00AEF0;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;margin-right:5px;">${o.k} kcal</span><span style="background:rgba(248,113,113,.2);color:#f87171;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;margin-right:5px;">P ${o.p}g</span><span style="background:rgba(251,191,36,.2);color:#fbbf24;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;margin-right:5px;">C ${o.c}g</span><span style="background:rgba(74,222,128,.2);color:#4ade80;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">G ${o.g}g</span></td></tr>`).join('');}).join('');
-  const eRows=dias.map(d=>`<tr><td style="padding:10px 0 10px 14px;border-left:2px solid #003D5C;"><div style="font-weight:600;font-size:14px;color:#fff;margin-bottom:6px;">${d.d}<span style="font-size:10px;color:#888;">[${d.i}]</span></div><div style="font-size:12px;color:#999;line-height:1.8;">${d.ex.join('<br>')}</div></td></tr>`).join('');
-  return`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#020e18;font-family:'Helvetica Neue',Arial,sans-serif;"><table width="100%"cellpadding="0"cellspacing="0"><tr><tdaglin="center"style="padding:32px16px;"><tablewidth="600"cellpadding="0"cellspacing="0"style="max-width:600px;width:100%;"><tr><tdstyle="background:linear-gradient(135deg,#003D5C,#0070a8);padding:32px;border-radius:16px16px00;"><tablewidth="100%"><tr><td><divstyle="font-size:22px;font-weight:700;color:#fff;">Metrored</div><divstyle="font-size:12px;color:rgba(255,255,255,.7);">Plan Nutricional Personalizado</div></td><tdalign="right"><spanstyle="background:#00AEF0;color:#fff;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:5px12px;border-radius:20px;text-transform:uppercase;">Nutrición Clínica</span></td></tr></table></td></tr><tr><tdstyle="background:#031d2e;padding:28px32px;"><divstyle="font-size:24px;font-weight:700;color:#fff;margin-bottom:4px;">${p.nom}</div><divstyle="font-size:12px;color:#888;margin-bottom:22px;">${p.fecha}</div><tablewidth="100%"cellpadding="0"cellspacing="8"><tr>${[['IMC',`${p.IM}·${p.II.l}`],['TMB',`${p.T.toLocaleString()}kcal`],['TDEE',`${p.TD.toLocaleString()}kcal`],['META',`${p.ME.toLocaleString()}kcal`]].map(([l,v])=>`<tdstyle="background:rgba(0,174,240,.1);border:1pxsolidrgba(0,174,240,.2);border-radius:8px;text-align:center;padding:12px8px;width:25%;"><divstyle="font-size:16px;font-weight:700;color:#00AEF0;">${v}</div><divstyle="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.8px;margin-top:3px;">${l}</div></td>`).join('')}</tr></table><divstyle="margin-top:18px;"><divstyle="height:7px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.07);"><divstyle="${seg('#f87171',p.MA.r.p)}"></div><divstyle="${seg('#fbbf24',p.MA.r.c)}"></div><divstyle="${seg('#4ade80',p.MA.r.g)}"></div></div><tablewidth="100%"style="margin-top:8px;"><tr><tdstyle="font-size:12px;color:#999;"><sponstyle="display:inline-block;width:7px;height:7px;border-radius:50%;background:#f87171;margin-right:5px;"></span>Prot<strong style="color:#f87171;">${p.MA.p}g</strong></td><tdstyle="font-size:12px;color:#999;"><sponstyle="display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;margin-right:5px;"></span>Carbs<strong style="color:#fbbf24;">${p.MA.c}g</strong></td><tdstyle="font-size:12px;color:#999;"><sponstyle="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:5px;"></span>Grasas<strong style="color:#4ade80;">${p.MA.g}g</strong></td></tr></table></div></td></tr><tr><tdstyle="background:#031d2e;padding:4px32px24px;"><divstyle="font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;">🍽Plan Nutricional Diario</div><tablewidth="100%">${cRows}</table></td></tr><tr><tdstyle="background:#020e18;padding:24px32px;"><divstyle="font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;">💪${p.gym?'Entrenamiento en Gimnasio':'Entrenamiento en Casa'}</div><tablewidth="100%">${eRows}</table></td></tr><tr><tdstyle="background:#020e18;padding:032px24px;"><divstyle="font-size:15px;font-weight:700;color:#fff;margin-bottom:12px;">📋Recomendaciones</div><tablewidth="100%">${['Beber35mldeaguaporkg','Dormir7-9horediarias','Registrarpesoporlunes','Comidasscada3-4horas','Incrementoprogresivodejercicio','Consultarmédico'].map(r=>`<tr><tdstyle="padding:7px07px14px;border-left:2pxsolid#00AEF0;font-size:13px;color:#aaa;">✓${r}</td></tr>`).join('')}</table><divstyle="background:rgba(251,191,36,.08);border:1pxsolidrgba(251,191,36,.2);border-radius:8px;padding:12px16px;margin-top:18px;font-size:12px;color:rgba(251,191,36,.8);">⚠Planorientativode30días.RequiereseguimientocónmedicoynutricionistaMerrored.</div></td></tr><tr><tdstyle="background:#003D5C;padding:20px32px;border-radius:0016px16px;"><tablewidth="100%"><tr><tdstyle="font-size:12px;color:rgba(255,255,255,.7);"><strongstyle="color:#fff;">MetreredCentrosMédicos</strong><br>AgenteddeConocimiento·metrored.com</td><tdalign="right"style="font-size:11px;color:rgba(255,255,255,.4);">${p.fecha}<br>metrored.com</td></tr></table></td></tr></table></td></tr></table></body></html>`;
-}
+function descargarPDF(){const pdfContent=document.getElementById('pdf-content');const opt={margin:10,filename:`Plan_${S.plan.nom.replace(/\s+/g,'_')}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2},jsPDF:{orientation:'portrait',unit:'mm',format:'a4'}};html2pdf().set(opt).from(pdfContent).save();toast('PDF descargado','t-ok');}
 
-function descargarPlan(){
-  const p=S.plan;
-  const dias=p.gym?EGYM:ECASA;
-  let t=`METRORED CENTROS MÉDICOS\nPLAN NUTRICIONAL PERSONALIZADO\n${'─'.repeat(55)}\n\n`;
-  t+=`PACIENTE : ${p.nom}\nFECHA    : ${p.fecha}\n`;
-  t+=`OBJETIVO : ${{perder:'Pérdida de peso',mantener:'Mantenimiento',ganar:'Ganancia muscular'}[p.obj]}\n\n`;
-  t+=`INDICADORES CLÍNICOS\n${'─'.repeat(55)}\n`;
-  t+=`IMC   : ${p.IM} (${p.II.l})\nTMB   : ${p.T} kcal/día\nTDEE  : ${p.TD} kcal/día\nMETA  : ${p.ME} kcal/día\n\n`;
-  t+=`MACRONUTRIENTES\n${'─'.repeat(55)}\nProteína: ${p.MA.p}g  Carbos: ${p.MA.c}g  Grasas: ${p.MA.g}g\n\n`;
-  ['desayuno','almuerzo','merienda','cena'].forEach(k=>{const c=COM[k];t+=`\n${c.em} ${c.lb.toUpperCase()}\n`;c.ops.forEach((o,i)=>{t+=`  Op.${i+1}: ${o.n}\n  ${o.its.join(', ')}\n  ${o.k} kcal · P${o.p}g · C${o.c}g · G${o.g}g\n\n`;});});
-  t+=`\nENTRENAMIENTO (${p.gym?'Gimnasio':'Casa'})\n${'─'.repeat(55)}\n`;
-  dias.forEach(d=>{t+=`\n${d.d} [${d.i}]\n${d.ex.map(e=>`  ${e}`).join('\n')}\n`;});
-  t+=`\nRECOMENDACIONES\n${'─'.repeat(55)}\n`;
-  ['Beber 35 ml/kg agua al día','Dormir 7-9 horas','Registrar peso semanal','Comidas cada 3-4 h','Ejercicio progresivo','Consultar médico ante síntomas'].forEach(r=>t+=`✓ ${r}\n`);
-  t+=`\n${'─'.repeat(55)}\nValidez 30 días. Seguimiento médico y nutricionista Metrored.\n`;
-  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(b);
-  a.download=`Plan_${p.nom.replace(/\s+/g,'_')}.txt`;
-  a.click();
-  toast('Plan descargado','t-ok');
-}
+function buildEmail(p){const dias=p.gym?EGYM:ECASA;let html=`<table width="600" style="margin:0 auto;font-family:Arial,sans-serif;border-collapse:collapse;"><tr><td style="background:linear-gradient(135deg,var(--navy),#0070a8);color:white;padding:30px;text-align:center;"><h1 style="margin:0;font-size:28px;">METRORED</h1><p style="margin:5px 0;font-size:12px;">Centros M�dicos</p></td></tr><tr><td style="background:#f9f9f9;padding:30px;"><h2 style="color:var(--navy);margin-bottom:10px;">${p.nom}</h2><p style="color:#666;margin:0;">Generado el ${p.fecha}</p><table width="100%" style="margin:20px 0;border-collapse:collapse;"><tr style="background:var(--navy);color:white;"><th style="padding:10px;text-align:left;">M�trica</th><th style="padding:10px;text-align:left;">Valor</th></tr><tr><td style="padding:10px;border-bottom:1px solid #ddd;">IMC</td><td style="padding:10px;border-bottom:1px solid #ddd;">${p.IM} (${p.II.l})</td></tr><tr><td style="padding:10px;border-bottom:1px solid #ddd;">TMB</td><td style="padding:10px;border-bottom:1px solid #ddd;">${p.T.toLocaleString()} kcal</td></tr><tr><td style="padding:10px;border-bottom:1px solid #ddd;">TDEE</td><td style="padding:10px;border-bottom:1px solid #ddd;">${p.TD.toLocaleString()} kcal</td></tr><tr><td style="padding:10px;">Meta</td><td style="padding:10px;">${p.ME.toLocaleString()} kcal</td></tr></table><h3 style="color:var(--navy);border-bottom:2px solid var(--cyan);padding-bottom:10px;">Macronutrientes</h3><p style="color:#666;">Prote�na: <strong>${p.MA.p}g</strong> | Carbos: <strong>${p.MA.c}g</strong> | Grasas: <strong>${p.MA.g}g</strong></p><h3 style="color:var(--navy);border-bottom:2px solid var(--cyan);padding-bottom:10px;">Plan Nutricional</h3>`;['desayuno','almuerzo','merienda','cena'].forEach(k=>{const c=COM[k];html+=`<p style="color:var(--cyan);font-weight:bold;margin:15px 0 5px;">${c.em} ${c.lb}</p>`;c.ops.forEach((o,i)=>{html+=`<p style="color:#666;margin:5px 0;font-size:12px;"><strong>Opci�n ${i+1}:</strong> ${o.n}<br>${o.its.join(' � ')}<br>${o.k} kcal | P${o.p}g | C${o.c}g | G${o.g}g</p>`;});});html+=`<h3 style="color:var(--navy);border-bottom:2px solid var(--cyan);padding-bottom:10px;margin-top:20px;">Plan de Entrenamiento</h3>`;dias.forEach(d=>{html+=`<p style="color:var(--navy);font-weight:bold;margin:15px 0 5px;">${d.d}</p><p style="color:#666;margin:5px 0;font-size:12px;">${d.ex.join('<br>')}</p>`;});html+=`<div style="margin-top:30px;padding-top:20px;border-top:2px solid #ddd;color:#666;font-size:11px;text-align:center;"><p>Plan orientativo de 30 d�as. Se recomienda seguimiento con m�dico y nutricionista de Metrored.</p><p style="margin-top:10px;"><strong>� 2026 Metrored Centros M�dicos</strong></p></div></td></tr></table>`;return html;}
 
-function volverForm(){document.getElementById('vplan').style.display='none';document.getElementById('vform').style.display='block';document.getElementById('spanel').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+function volverForm(){document.getElementById('vplan').style.display='none';document.getElementById('vform').style.display='block';document.getElementById('spanel').style.display='none';window.scrollTo({top:0});}
 
 function toast(msg,cls='t-info'){const el=document.getElementById('toast');el.textContent=msg;el.className=`toast ${cls} show`;clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3800);}
 </script>
