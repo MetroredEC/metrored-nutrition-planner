@@ -1,0 +1,19 @@
+name = "metrored-nutrition-planner"
+type = "javascript"
+account_id = ""
+workers_dev = true
+
+[build]
+command = "echo 'Static site'"
+cwd = "./"
+
+[env.production]
+name = "metrored-nutrition-planner-prod"
+
+[vars]
+AZURE_TENANT_ID = "480bd49c-6f89-4faa-b39e-c7728d95d130"
+AZURE_CLIENT_ID = "66130291-fc50-43f1-943c-6818dac1ba99"
+AZURE_SENDER = "gmartinez@metrored.med.ec"
+
+# El client_secret se agrega como secret cifrado con:
+# wrangler secret put AZURE_CLIENT_SECRET

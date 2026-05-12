@@ -1,0 +1,15 @@
+{
+  "name": "metrored-nutrition-planner",
+  "version": "1.0.0",
+  "description": "Generador de planes nutricionales personalizados",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server -p 8000 -c-1",
+    "build": "echo 'No build needed for static site'",
+    "deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "wrangler": "^3.0.0"
+  }
+}
